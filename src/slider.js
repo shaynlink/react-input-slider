@@ -27,6 +27,13 @@ const Slider = ({
   const handle = useRef(null);
   const start = useRef({});
   const offset = useRef({});
+  
+  const styles = {
+    track: { ...defaultStyles[axis].track, ...customStyles.track },
+    active: { ...defaultStyles[axis].active, ...customStyles.active },
+    thumb: { ...defaultStyles[axis].thumb, ...customStyles.thumb },
+    disabled: { ...defaultStyles.disabled, ...customStyles.disabled }
+  };
 
   function getPosition() {
     let top = ((y - ymin) / (ymax - ymin)) * 100;
@@ -188,22 +195,15 @@ const Slider = ({
     handleStyle.left = '50%';
   }
 
-  const styles = {
-    track: { ...defaultStyles[axis].track, ...customStyles.track },
-    active: { ...defaultStyles[axis].active, ...customStyles.active },
-    thumb: { ...defaultStyles[axis].thumb, ...customStyles.thumb },
-    disabled: { ...defaultStyles.disabled, ...customStyles.disabled }
-  };
-
   return (
     <div
       {...props}
       ref={container}
-      css={[styles.track, disabled && styles.disabled]}
+      style={styles.track}
       onTouchStart={handleTrackMouseDown}
       onMouseDown={handleTrackMouseDown}
     >
-      <div css={styles.active} style={valueStyle} />
+      <div style={styles.active} style={valueStyle} />
       <div
         ref={handle}
         style={handleStyle}
@@ -214,7 +214,7 @@ const Slider = ({
           e.nativeEvent.stopImmediatePropagation();
         }}
       >
-        <div css={styles.thumb} />
+        <div style={styles.thumb} />
       </div>
     </div>
   );
